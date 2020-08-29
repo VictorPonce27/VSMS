@@ -1,15 +1,18 @@
 import discord
 from discord.ext import commands
+
 import config 
 from config import token
 
+import pymongo
+from pymongo import MongoClient
+
+
 client = commands.Bot(command_prefix = '.')
 
-
-
-
-
-
+cluster = MongoClient("mongodb+srv://victor:8246@cluster1.i5pf9.mongodb.net/Discrod?retryWrites=true & w=majority")
+db = cluster["Data"]
+collection = db["Users"]
 
 # This gives you a message to let you know that the bot is on
 @client.event
@@ -48,11 +51,16 @@ async def _command(ctx):
 
     msg = await client.wait_for("message", check=check)
     if msg.content.lower() == "y":
-        await ctx.send("You said yes!")
+        await ctx.send("you said yes")
     else:
-        await ctx.send("You said no!")
+        await ctx.send("you said no")
 
+    post = {"user":ctx.author.name,"answer":msg.content.lower()}
+    collection.insert_one(post)
+    
     times_used = times_used + 1
+
+
 
 
 client.run(token)
