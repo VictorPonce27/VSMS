@@ -1,7 +1,14 @@
 import discord
 from discord.ext import commands
+import config 
+from config import token
 
 client = commands.Bot(command_prefix = '.')
+
+
+
+
+
 
 
 # This gives you a message to let you know that the bot is on
@@ -48,4 +55,4 @@ async def _command(ctx):
     times_used = times_used + 1
 
 
-client.run('NzQ2NzY4NDAwOTkwMzM5MTAy.X0FIRQ.JoWwX4TKZ1CdxVi_jwaBu06b9bc')
+client.run(token)
