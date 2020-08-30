@@ -28,6 +28,55 @@ dbu = cluster["UserData"]
 @client.event
 async def on_ready():
     print('Bot is ready.')
+    db1 = cluster['MajorsDatabase']
+
+    dbu = cluster['UserData']
+    collectionu = dbu['data']
+
+    df = ["Ambiente Construido", "Ciencias Sociales",
+          "Estudios Creativos", "Negocios", "Salud", "Innovacion y transformacion",
+          "Computacion y Tecnologias de Informacion", "Bioingenieria y Procesos Quimicos",
+          "Ciencias aplicadas"]
+
+    database_names = cluster.list_database_names()
+
+    # iterate over the list of database names
+    for db_num, db in enumerate(database_names):
+        # use the list_collection_names() method to return collection names
+        collection_names = cluster[db].list_collection_names()
+        if(db == "MajorsDatabase"):
+            # iterate over the list of collection names
+            for col in df:
+                # print(col, "--")
+                collection = db1[col]
+                myquery = {"major": col}
+                mydoc = collection.find(myquery)
+                aux = []
+                auxid = []
+                count = 0
+                for i in mydoc:
+                    myquery2 = {"major": i["major"]}
+                    mydoc2 = collectionu.find(myquery2)
+                    for j in mydoc2:
+
+                        if(i["classID"] == j["class"]):
+                            aux.append(j['username'])
+                            auxid.append(j['user_id'])
+                            count = count + 1
+                   
+                    if (len(aux) >= 3):
+                        for i in range(0, len(aux)):
+                            await client.get_user(auxid[i]).send("Gracias por la espera! Tu equipo es...")
+                        for j in range(0, len(aux)):
+                            await client.get_user(auxid[i]).send(f"{j}: {aux[j]}")
+                        await client.get_user(auxid[i]).send("Favor de comunicarte con ellos via discord. :D")
+
+                        mydb = cluster['UserData']
+                        mycollection = mydb['data']
+                        for i in range(0, len(aux)):
+                            myquery = {"username": aux[i]}
+                            mycollection.delete_one(myquery)
+                        aux.clear()
 # This lets you know in the console when someone has joined
 
 
@@ -142,38 +191,60 @@ async def study(ctx, arg):
 
     await ctx.send("Thanks! Hang tight, we're finding the best matches for you. This might take around a minute.")
 
-@tasks.loop(seconds = 10.0)
-async def matching():
-    print("Done")
-    if (len(aux) >= 3):
-        for i in range(0,len(aux)):
-            await aux[i].send("Gracias por la espera! Tu equipo es...")
-        for j in range(0,len(aux)):
-            await aux[i].send(f"{j}: {aux[j]}")
-        await aux[i].send("Favor de comunicarte con ellos via discord. :D")
+# @tasks.loop(seconds = 3.0)
+# async def matching():
+#     db1 = cluster['MajorsDatabase']
 
-    mydb = cluster['UserData']
-    mycollection = mydb['data']
-    for i in range(0,len(aux)):
-        myquery = {"username" : aux[i]}
-        mycollection.delete_one(myquery)
-    aux.clear()
+#     dbu = cluster['UserData']
+#     collectionu = dbu['data']
+
+#     df = ["Ambiente Construido", "Ciencias Sociales",
+#           "Estudios Creativos", "Negocios", "Salud", "Innovacion y transformacion",
+#           "Computacion y Tecnologias de Informacion", "Bioingenieria y Procesos Quimicos",
+#           "Ciencias aplicadas"]
+
+#     database_names = cluster.list_database_names()
+
+#     # iterate over the list of database names
+#     for db_num, db in enumerate(database_names):
+#         # use the list_collection_names() method to return collection names
+#         collection_names = cluster[db].list_collection_names()
+#         if(db == "MajorsDatabase"):
+#             # iterate over the list of collection names
+#             for col in df:
+#                 print(col, "--")
+#                 collection = db1[col]
+#                 myquery = {"major": col}
+#                 mydoc = collection.find(myquery)
+#                 aux = []
+#                 count = 0
+#                 for i in mydoc:
+#                     myquery2 = {"major": i["major"]}
+#                     mydoc2 = collectionu.find(myquery2)
+#                     for j in mydoc2:
+#                         print({'classID': i['classID']})
+#                         if(i["classID"] == j["class"]):
+#                             print("inside")
+#                             print({'class': i['class']})
+#                             print(" ")
+#                             print({'class': j['class']})
+#                             aux.append(j['username'])
+#                             count = count + 1
+
+#         print("Done")
+#         if (len(aux) >= 3):
+#             for i in range(0,len(aux)):
+#                 await aux[i].send("Gracias por la espera! Tu equipo es...")
+#             for j in range(0,len(aux)):
+#                 await aux[i].send(f"{j}: {aux[j]}")
+#             await aux[i].send("Favor de comunicarte con ellos via discord. :D")
+
+#         mydb = cluster['UserData']
+#         mycollection = mydb['data']
+#         for i in range(0,len(aux)):
+#             myquery = {"username" : aux[i]}
+#             mycollection.delete_one(myquery)
+#         aux.clear()
    
-
-
-
-# @client.command()
-# async def group_task(ctx):
-#     while True:
-
-#         for i in 8:
-#             for j in df.ndim:
-#                 print(df.iloc[i][j])
-
-
-#         await #Imprimir a usuarios
-#         await #Borrar
-#         await asyncio.sleep(45)
-
 
 client.run(token)
