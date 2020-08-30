@@ -20,10 +20,10 @@ print(clases)
 
 client = commands.Bot(command_prefix='.')
 
-cluster = MongoClient("mongodb+srv://victor:8246@cluster1.i5pf9.mongodb.net/Discrod?retryWrites=true & w=majority")
+cluster = pymongo.MongoClient("mongodb+srv://victor:8246@cluster1.i5pf9.mongodb.net/Discrod?retryWrites=true & w=majority")
 
-db = cluster["MayorsDatabase"]
-
+db = cluster["MajorsDatabase"]
+dbu = cluster["UserData"]
 
 # This gives you a message to let you know that the bot is on
 
@@ -116,7 +116,18 @@ async def on_raw_reaction_add(payload):
     #Ciencias Aplicadas
     elif payload.emoji.name=='🔭':
         carrera = "Ciencias Aplicadas"
+
+    collection = db[carrera]
+
+    myquery = {"CarreraID": 0}
+    mydoc = collection.find(myquery)
+    number = 0
     
+    for i in mydoc:
+        print(i['class'])
+        await user.send(f'{number}: {db[carrera]}')   
+        number = number + 1 
+    await user.send("reply with .study(number of the class you want to study)")
 
 
 @client.command(name="command")
