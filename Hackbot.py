@@ -11,9 +11,9 @@ from pymongo import MongoClient
 
 import pandas as pd
 
-local_dir = os.getcd()
+local_dir = os.getcwd()
 
-clases = pd.read_csv(f'{local_dir}/ClasesFinal.csv')
+clases = pd.read_csv(f'{local_dir}/ClasesFinalFINAL.csv')
 
 print(clases)
 
