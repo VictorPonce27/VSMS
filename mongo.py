@@ -15,6 +15,7 @@ post2 = {"_id":6, "name": "bill"}
 #local_dir = os.getcwd()
 
 #Para torvic
+#numa torvic
 
 #table = pd.read_csv(f'{local_dir}/ClasesFinalFINAL.csv')
 # print(table)
