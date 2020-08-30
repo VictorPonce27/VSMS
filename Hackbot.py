@@ -25,6 +25,7 @@ cluster = MongoClient("mongodb+srv://victor:8246@cluster1.i5pf9.mongodb.net/Disc
 db = cluster["Data"]
 collection = db["Users"]
 
+
 # This gives you a message to let you know that the bot is on
 
 
@@ -38,6 +39,8 @@ async def on_ready():
 async def on_member_join(member):
     print(f'{member} has joined the server')
     await member.send('hello tester')
+    print(f'Bienvenido! Reacciona a este mensaje con el emoji que corresponde a tu carrera:')
+    # print(f':rocket:')
 
 
 # This lets you know in the console when someone has left
@@ -62,32 +65,42 @@ async def clear(ctx, amount=5):
 #comand for creating reaction
 @client.event
 async def on_raw_reaction_add(payload):
-    print(payload)
-    if payload.emoji.name=='':
+
+    print(payload.emoji.name)
+    #Ambiente Construido
+    if payload.emoji.name=='👷':
         carrera=0
         
-    elif payload.emoji.name=='ciencias sociales':
+    #Ciencias Sociales
+    elif payload.emoji.name=='📱':
         carrera=1
 
-    elif payload.emoji.name=='Estudios creativos':
+    #Estudios Creativos
+    elif payload.emoji.name=='🎸':
         carrera=2
 
-    elif payload.emoji.name=='negocios ':
+    #Negocios
+    elif payload.emoji.name=='💸 ':
         carrera=3
 
-    elif payload.emoji.name=='salud':
+    #Salud
+    elif payload.emoji.name=='🏥':
         carrera=4
 
-    elif payload.emoji.name=='innovacion y transformacion':
+    #Inovación y Transformación
+    elif payload.emoji.name=='🚀':
         carrera=5
 
-    elif payload.emoji.name=='computacion y tecnologias de informacion':
+    #Computación y Tecnología de Información
+    elif payload.emoji.name=='💻':
         carrera=6
 
-    elif payload.emoji.name=='bioingenieria y procesos quimicos':
+    #Bioingeniería y Procesos Químicos
+    elif payload.emoji.name=='🧪':
         carrera=7
 
-    elif payload.emoji.name=='ciencias aplicadas':
+    #Ciencias Aplicadas
+    elif payload.emoji.name=='🔭':
         carrera=8
 
 @client.command(name="command")
