@@ -22,8 +22,7 @@ client = commands.Bot(command_prefix='.')
 
 cluster = MongoClient("mongodb+srv://victor:8246@cluster1.i5pf9.mongodb.net/Discrod?retryWrites=true & w=majority")
 
-db = cluster["Data"]
-collection = db["Users"]
+db = cluster["MayorsDatabase"]
 
 
 # This gives you a message to let you know that the bot is on
@@ -84,45 +83,41 @@ async def on_raw_reaction_add(payload):
 
     #Ambiente Construido
     if payload.emoji.name=='👷':
-        carrera=0
-        await user.send("Test")
-
+        carrera = "Ambiente Construido"
         
     #Ciencias Sociales
     elif payload.emoji.name=='📱':
-        carrera=1
+        carrera = "Ciencias Sociales"
 
     #Estudios Creativos
     elif payload.emoji.name=='🎸':
-        carrera=2
+        carrera = "Estudios Creativos"
 
     #Negocios
     elif payload.emoji.name=='💸 ':
-        carrera=3
+        carrera = "Negocios"
 
     #Salud
     elif payload.emoji.name=='🏥':
-        carrera=4
+        carrera = "Salud"
 
     #Inovación y Transformación
     elif payload.emoji.name=='🚀':
-        carrera=5
+        carrera = "Innovacion y Transformacion"
 
     #Computación y Tecnología de Información
     elif payload.emoji.name=='💻':
-        carrera=6
+        carrera = "Computacion y Tecnologias de Informacion"
 
     #Bioingeniería y Procesos Químicos
     elif payload.emoji.name=='🧪':
-        carrera=7
+        carrera = "Bioigenieria y Procesos Quimicos"
 
     #Ciencias Aplicadas
     elif payload.emoji.name=='🔭':
-        carrera=8
+        carrera = "Ciencias Aplicadas"
+    
 
-    #Send information to data base
-    post = {"user": payload.user_id, "Carrera": carrera}
-    collection.insert_one(post)
 
 @client.command(name="command")
 async def _command(ctx):
@@ -140,9 +135,6 @@ async def _command(ctx):
         await ctx.send("you said yes")
     else:
         await ctx.send("you said no")
-
-    post = {"user": ctx.author.name, "answer": msg.content.lower()}
-    collection.insert_one(post)
 
     times_used = times_used + 1
 
