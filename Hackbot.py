@@ -13,7 +13,7 @@ import pandas as pd
 
 local_dir = os.getcd()
 
-clases = pd.read_csv(f'{local_dir}/VSMS/ClasesFinal.csv')
+clases = pd.read_csv(f'{local_dir}/ClasesFinal.csv')
 
 print(clases)
 
