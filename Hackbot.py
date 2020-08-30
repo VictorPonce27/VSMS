@@ -37,6 +37,8 @@ async def on_ready():
 @client.event
 async def on_member_join(member):
     print(f'{member} has joined the server')
+    await member.send('hello tester')
+
 
 # This lets you know in the console when someone has left
 
