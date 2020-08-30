@@ -12,11 +12,6 @@ from pymongo import MongoClient
 
 import pandas as pd
 
-local_dir = os.getcwd()
-
-clases = pd.read_csv(f'{local_dir}/ClasesFinalFINAL.csv')
-
-print(clases)
 
 client = commands.Bot(command_prefix='.')
 
@@ -80,74 +75,67 @@ async def on_raw_reaction_add(payload):
     user = client.get_user(payload.user_id) 
 
     carrera = 100
-
+    carreraID =100
     #Ambiente Construido
     if payload.emoji.name=='👷':
         carrera = "Ambiente Construido"
-        
+        carreraID = 0
     #Ciencias Sociales
     elif payload.emoji.name=='📱':
         carrera = "Ciencias Sociales"
-
+        carreraID = 1
     #Estudios Creativos
     elif payload.emoji.name=='🎸':
         carrera = "Estudios Creativos"
-
+        carreraID = 2
     #Negocios
     elif payload.emoji.name=='💸 ':
         carrera = "Negocios"
-
+        carreraID = 3
     #Salud
     elif payload.emoji.name=='🏥':
         carrera = "Salud"
-
+        carreraID = 4
     #Inovación y Transformación
     elif payload.emoji.name=='🚀':
         carrera = "Innovacion y Transformacion"
-
+        carreraID = 5
     #Computación y Tecnología de Información
     elif payload.emoji.name=='💻':
         carrera = "Computacion y Tecnologias de Informacion"
-
+        carreraID = 6
     #Bioingeniería y Procesos Químicos
     elif payload.emoji.name=='🧪':
         carrera = "Bioigenieria y Procesos Quimicos"
-
+        carreraID = 7
     #Ciencias Aplicadas
     elif payload.emoji.name=='🔭':
         carrera = "Ciencias Aplicadas"
-
+        carreraID = 8
     collection = db[carrera]
 
-    myquery = {"CarreraID": 0}
+    myquery = {"carreraID":carreraID}
     mydoc = collection.find(myquery)
-    number = 0
-    
+    number = 1
     for i in mydoc:
         print(i['class'])
-        await user.send(f'{number}: {db[carrera]}')   
+        await user.send(f"{number}: {i['class']}")   
         number = number + 1 
-    await user.send("reply with .study(number of the class you want to study)")
+    await user.send("reply with .study(number of the class wich you want to study)")
+
+    collectionu = dbu["data"]
+    post = {"user": user.name, "major":carrera}
+    collectionu.insert_one(post)
 
 
-@client.command(name="command")
+
+@client.command(name="study")
 async def _command(ctx):
-    global times_used
-    await ctx.send(f"y or n")
+    collectionu = dbu["data"]
+    
+    newData = {"$set":{"class":ctx}}
+    collectionu.insert_one(newData)
 
-    # This will make sure that the response will only be registered if the following
-    # conditions are met:
-    def check(msg):
-        return msg.author == ctx.author and msg.channel == ctx.channel and \
-            msg.content.lower() in ["y", "n"]
-
-    msg = await client.wait_for("message", check=check)
-    if msg.content.lower() == "y":
-        await ctx.send("you said yes")
-    else:
-        await ctx.send("you said no")
-
-    times_used = times_used + 1
-
+    await ctx.send("Thanks. Hang tight we're finding the best matches for you")
 
 client.run(token)
