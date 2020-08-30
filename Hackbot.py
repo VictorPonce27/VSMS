@@ -89,7 +89,7 @@ async def on_raw_reaction_add(payload):
         carrera = "Estudios Creativos"
         carreraID = 2
     #Negocios
-    elif payload.emoji.name=='💸 ':
+    elif payload.emoji.name=='💸':
         carrera = "Negocios"
         carreraID = 3
     #Salud
@@ -126,7 +126,7 @@ async def on_raw_reaction_add(payload):
     await user.send("reply with .study(number of the class wich you want to study)")
 
     collectionu = dbu["data"]
-    post = {"user": user.id, "major":carrera,"class":""}
+    post = {"user_id": user.id, "user" : user.name, "major":carrera, "class":""}
     collectionu.insert_one(post)
 
 # @task.loop(seconds = 60.0)
@@ -147,9 +147,10 @@ async def _command(ctx):
 @client.command(name="study")
 async def study(ctx, arg):
     collectionu = dbu["data"]
-    
-    myquery ={"User": ctx.id}
-    newData = {"%set":{"class":arg}}
+
+
+    myquery ={"user": ctx.message.author.id}
+    newData = {"$set":{"class":arg}}
     collectionu.update_one(myquery,newData)
 
     await ctx.send("Thanks! Hang tight, we're finding the best matches for you. This might take around a minute.")
