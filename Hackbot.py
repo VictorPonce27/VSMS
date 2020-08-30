@@ -4,12 +4,16 @@ from discord.ext import commands
 import config
 from config import token
 
+import os
+
 import pymongo
 from pymongo import MongoClient
 
 import pandas as pd
 
-clases = pd.read_csv('/Users/wichozambrano/Documents/HackMTY 2020/VSMS/ClasesFinal.csv')
+local_dir = os.getcd()
+
+clases = pd.read_csv(f'{local_dir}/VSMS/ClasesFinal.csv')
 
 print(clases)
 
