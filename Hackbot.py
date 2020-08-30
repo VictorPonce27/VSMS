@@ -112,10 +112,10 @@ async def on_raw_reaction_add(payload):
     elif payload.emoji.name=='🔭':
         carrera = "Ciencias Aplicadas"
         carreraID = 8
-    collection = db[carrera]
+    collection1 = db[carrera]
 
-    myquery = {"carreraID":carreraID}
-    mydoc = collection.find(myquery)
+    myquery = {"majorID":carreraID}
+    mydoc = collection1.find(myquery)
     number = 1
     for i in mydoc:
         print(i['class'])
@@ -127,14 +127,11 @@ async def on_raw_reaction_add(payload):
     post = {"user": user.name, "major":carrera}
     collectionu.insert_one(post)
 
-@task.loop(seconds = 60.0)
-async def group(self):
+# @task.loop(seconds = 60.0)
+# async def group(self):
 
-    dbU = cluster['Data']
-    collection = dbU['Users']
-
-
-
+#     dbU = cluster['Data']
+#     collection = dbU['Users']
 
 
 @client.command(name="command")
@@ -144,12 +141,12 @@ async def _command(ctx):
 
 
 @client.command(name="study")
-async def _command(ctx):
+async def study(ctx, arg):
     collectionu = dbu["data"]
     
-    newData = {"$set":{"class":ctx}}
+    newData = {"class":arg}
     collectionu.insert_one(newData)
 
-    await ctx.send("Thanks. Hang tight we're finding the best matches for you")
+    await ctx.send("Thanks! Hang tight, we're finding the best matches for you. This might take around a minute.")
 
 client.run(token)
