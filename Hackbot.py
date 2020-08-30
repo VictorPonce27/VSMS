@@ -126,7 +126,7 @@ async def on_raw_reaction_add(payload):
     await user.send("reply with .study(number of the class wich you want to study)")
 
     collectionu = dbu["data"]
-    post = {"user_id": user.id, "user" : user.name, "major":carrera, "class":""}
+    post = {"user_id": user.id, "username" : user.name, "major":carrera, "class":""}
     collectionu.insert_one(post)
 
 # @task.loop(seconds = 60.0)
@@ -149,8 +149,8 @@ async def study(ctx, arg):
     collectionu = dbu["data"]
 
 
-    myquery ={"user": ctx.message.author.id}
-    newData = {"$set":{"class":arg}}
+    myquery ={"userid": ctx.message.author.id}
+    newData = {"$set":{"class":arg-1}}
     collectionu.update_one(myquery,newData)
 
     await ctx.send("Thanks! Hang tight, we're finding the best matches for you. This might take around a minute.")
