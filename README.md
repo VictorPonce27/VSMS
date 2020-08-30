@@ -1,6 +1,7 @@
 VSMS
 
-##Equipo Valgrind HackMTY 2020
+##HackMTY 2020
+##Equipo Valgrind 
 
 Este es el proyecto creado en un rango de 24 horas por el equipo de Valgrind.
 
