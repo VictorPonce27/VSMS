@@ -7,6 +7,11 @@ from config import token
 import pymongo
 from pymongo import MongoClient
 
+import pandas as pd
+
+clases = pd.read_csv('/Users/wichozambrano/Documents/HackMTY 2020/VSMS/ClasesFinal.csv')
+
+print(clases)
 
 client = commands.Bot(command_prefix = '.')
 
