@@ -40,9 +40,9 @@ async def on_member_join(member):
     print(f'{member} has joined the server')
     print(f'Bienvenido! Reacciona a este mensaje con el emoji que corresponde a tu carrera:')
     # print(f':rocket:')
-    await member.send("""Bienvenido al servidor para apoyo de estudiantes
-                         porfavor reacciona a los siguientes emojis 
-                         dependiendo de tu carrera:
+    await member.send("""Bienvenido al Valgrind Study Group Matching Service!
+                         Reacciona a este mensaje con uno de los siguientes emojis dependiendo de tu area de estudio:
+                         
                          👷 para ambiente construido
                          📱 para ciencias sociales
                          🎸 para estudios creativos
@@ -77,11 +77,16 @@ async def clear(ctx, amount=5):
 @client.event
 async def on_raw_reaction_add(payload):
 
-    print(payload.emoji.name)
-    
+    print(client.get_user(payload.user_id) )
+    user = client.get_user(payload.user_id) 
+
+    carrera = 100
+
     #Ambiente Construido
     if payload.emoji.name=='👷':
         carrera=0
+        await user.send("Test")
+
         
     #Ciencias Sociales
     elif payload.emoji.name=='📱':
