@@ -1,6 +1,6 @@
 import discord
 import discord.emoji
-from discord.ext import commands
+from discord.ext import commands, tasks
 
 import config
 from config import token
@@ -127,6 +127,20 @@ async def on_raw_reaction_add(payload):
     post = {"user": user.name, "major":carrera}
     collectionu.insert_one(post)
 
+@task.loop(seconds = 60.0)
+async def group(self):
+
+    dbU = cluster['Data']
+    collection = dbU['Users']
+
+
+
+
+
+@client.command(name="command")
+async def _command(ctx):
+    global times_used
+    await ctx.send(f"y or n")
 
 
 @client.command(name="study")
