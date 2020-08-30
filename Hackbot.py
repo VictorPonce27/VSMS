@@ -117,14 +117,16 @@ async def on_raw_reaction_add(payload):
     myquery = {"majorID":carreraID}
     mydoc = collection1.find(myquery)
     number = 1
+
     for i in mydoc:
         print(i['class'])
         await user.send(f"{number}: {i['class']}")   
         number = number + 1 
+    
     await user.send("reply with .study(number of the class wich you want to study)")
 
     collectionu = dbu["data"]
-    post = {"user": user.name, "major":carrera}
+    post = {"user": user.id, "major":carrera,"class":""}
     collectionu.insert_one(post)
 
 # @task.loop(seconds = 60.0)
@@ -133,6 +135,8 @@ async def on_raw_reaction_add(payload):
 #     dbU = cluster['Data']
 #     collection = dbU['Users']
 
+#     dbU = cluster['Data']
+#     collection = dbU['Users']
 
 @client.command(name="command")
 async def _command(ctx):
@@ -144,8 +148,9 @@ async def _command(ctx):
 async def study(ctx, arg):
     collectionu = dbu["data"]
     
-    newData = {"class":arg}
-    collectionu.insert_one(newData)
+    myquery ={"User": ctx.id}
+    newData = {"%set":{"class":arg}}
+    collectionu.update_one(myquery,newData)
 
     await ctx.send("Thanks! Hang tight, we're finding the best matches for you. This might take around a minute.")
 
