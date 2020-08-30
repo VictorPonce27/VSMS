@@ -41,6 +41,18 @@ async def on_member_join(member):
     await member.send('hello tester')
     print(f'Bienvenido! Reacciona a este mensaje con el emoji que corresponde a tu carrera:')
     # print(f':rocket:')
+    await member.send("""Bienvenido al servidor para apoyo de estudiantes
+                         porfavor reacciona a los siguientes emojis 
+                         dependiendo de tu carrera:
+                         👷 para ambiente construido
+                         📱 para ciencias sociales
+                         🎸 para estudios creativos
+                         💸 para negocios
+                         🏨 para salud 
+                         🚀 para innovacion y transformacion
+                         💻 para computacion y tecnologias de informacion
+                         🧪 para bioigenieria y procesos quimicos
+                         🔭 para ciencias aplicadas""")
 
 
 # This lets you know in the console when someone has left
@@ -69,39 +81,53 @@ async def on_raw_reaction_add(payload):
     print(payload.emoji.name)
     #Ambiente Construido
     if payload.emoji.name=='👷':
+    print(payload.emoji.name)
+    if payload.emoji.name=='⚒️':
         carrera=0
         
     #Ciencias Sociales
     elif payload.emoji.name=='📱':
+    elif payload.emoji.name=='ciencias sociales':
         carrera=1
 
     #Estudios Creativos
     elif payload.emoji.name=='🎸':
+    elif payload.emoji.name=='Estudios creativos':
         carrera=2
 
     #Negocios
     elif payload.emoji.name=='💸 ':
+    elif payload.emoji.name=='negocios ':
         carrera=3
 
     #Salud
     elif payload.emoji.name=='🏥':
+    elif payload.emoji.name=='salud':
         carrera=4
 
     #Inovación y Transformación
     elif payload.emoji.name=='🚀':
+    elif payload.emoji.name=='innovacion y transformacion':
         carrera=5
 
     #Computación y Tecnología de Información
     elif payload.emoji.name=='💻':
+    elif payload.emoji.name=='computacion y tecnologias de informacion':
         carrera=6
 
     #Bioingeniería y Procesos Químicos
     elif payload.emoji.name=='🧪':
+    elif payload.emoji.name=='bioingenieria y procesos quimicos':
         carrera=7
 
     #Ciencias Aplicadas
     elif payload.emoji.name=='🔭':
+    elif payload.emoji.name=='ciencias aplicadas':
         carrera=8
+
+    #Send information to data base
+    post = {"user": payload.user_id, "Carrera": carrera}
+    collection.insert_one(post)
 
 @client.command(name="command")
 async def _command(ctx):
