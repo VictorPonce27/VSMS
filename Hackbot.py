@@ -1,15 +1,10 @@
 import discord
+import discord.emoji
 from discord.ext import commands
 import config 
 from config import token
 
 client = commands.Bot(command_prefix = '.')
-
-
-
-
-
-
 
 # This gives you a message to let you know that the bot is on
 @client.event
@@ -34,6 +29,36 @@ async def info(ctx):
 async def clear(ctx, amount = 5):
     await ctx.channel.purge(limit = amount)
 
+#comand for creating reaction
+@client.event
+async def on_raw_reaction_add(payload):
+    print(payload)
+    if payload.emoji.name=='':
+        carrera=0
+        
+    elif payload.emoji.name=='ciencias sociales':
+        carrera=1
+
+    elif payload.emoji.name=='Estudios creativos':
+        carrera=2
+
+    elif payload.emoji.name=='negocios ':
+        carrera=3
+
+    elif payload.emoji.name=='salud':
+        carrera=4
+
+    elif payload.emoji.name=='innovacion y transformacion':
+        carrera=5
+
+    elif payload.emoji.name=='computacion y tecnologias de informacion':
+        carrera=6
+
+    elif payload.emoji.name=='bioingenieria y procesos quimicos':
+        carrera=7
+
+    elif payload.emoji.name=='ciencias aplicadas':
+        carrera=8
 
 @client.command(name="command")
 async def _command(ctx):
