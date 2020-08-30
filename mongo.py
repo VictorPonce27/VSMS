@@ -20,7 +20,7 @@ post2 = {"_id":6, "name": "bill"}
 #table = pd.read_csv(f'{local_dir}/ClasesFinalFINAL.csv')
 # print(table)
 
-db = cluster['MayorsDatabase']
+db = cluster['MajorsDatabase']
 collection = db["Ambiente Construido"]
 
 myquery = {"CarreraID": 0 }

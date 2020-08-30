@@ -12,6 +12,7 @@ from pymongo import MongoClient
 
 import pandas as pd
 
+import asyncio
 
 client = commands.Bot(command_prefix='.')
 
@@ -20,12 +21,16 @@ cluster = pymongo.MongoClient("mongodb+srv://victor:8246@cluster1.i5pf9.mongodb.
 db = cluster["MajorsDatabase"]
 dbu = cluster["UserData"]
 
-# This gives you a message to let you know that the bot is on
+local_dir = os.getcwd()
 
+df = pd.read_csv(f'{local_dir}/ClasesFinalFINAL.csv'
+
+# This gives you a message to let you know that the bot is on
 
 @client.event
 async def on_ready():
     print('Bot is ready.')
+    bot.loop.create_task(group_task())
 # This lets you know in the console when someone has joined
 
 
@@ -129,14 +134,11 @@ async def on_raw_reaction_add(payload):
     post = {"user_id": user.id, "username" : user.name, "major":carrera, "class": user.id}
     collectionu.insert_one(post)
 
-# @task.loop(seconds = 60.0)
-# async def group(self):
+@task.loop(seconds = 60.0)
+async def group(self):
 
-#     dbU = cluster['Data']
-#     collection = dbU['Users']
-
-#     dbU = cluster['Data']
-#     collection = dbU['Users']
+    dbU = cluster['Data']
+    collection = dbU['Users']
 
 @client.command(name="command")
 async def _command(ctx):
@@ -155,5 +157,19 @@ async def study(ctx, arg):
     collectionu.update_one(myquery,newData)
 
     await ctx.send("Thanks! Hang tight, we're finding the best matches for you. This might take around a minute.")
+
+# @client.command()
+# async def group_task(ctx):
+#     while True:
+
+#         for i in 8:
+#             for j in df.ndim:
+#                 print(df.iloc[i][j])
+
+
+#         await #Imprimir a usuarios
+#         await #Borrar
+#         await asyncio.sleep(45)
+
 
 client.run(token)
