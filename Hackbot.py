@@ -1,6 +1,6 @@
 import discord
 import discord.emoji
-from discord.ext import commands, tasks
+from discord.ext import tasks, commands
 
 from itertools import cycle 
 
@@ -129,10 +129,6 @@ async def on_raw_reaction_add(payload):
     post = {"user_id": user.id, "username" : user.name, "major":carrera, "class":""}
     collectionu.insert_one(post)
 
-@client.loop(seconds = 60.0)
-async def matching():
-    print("place holder")    
-
 
 @client.command(name="study")
 async def study(ctx, arg):
@@ -145,5 +141,39 @@ async def study(ctx, arg):
     collectionu.update_one(myquery, newData)
 
     await ctx.send("Thanks! Hang tight, we're finding the best matches for you. This might take around a minute.")
+
+@tasks.loop(seconds = 10.0)
+async def matching():
+    print("Done")
+    if (len(aux) >= 3):
+        for i in range(0,len(aux)):
+            await aux[i].send("Gracias por la espera! Tu equipo es...")
+        for j in range(0,len(aux)):
+            await aux[i].send(f"{j}: {aux[j]}")
+        await aux[i].send("Favor de comunicarte con ellos via discord. :D")
+
+    mydb = cluster['UserData']
+    mycollection = mydb['data']
+    for i in range(0,len(aux)):
+        myquery = {"username" : aux[i]}
+        mycollection.delete_one(myquery)
+    aux.clear()
+   
+
+
+
+# @client.command()
+# async def group_task(ctx):
+#     while True:
+
+#         for i in 8:
+#             for j in df.ndim:
+#                 print(df.iloc[i][j])
+
+
+#         await #Imprimir a usuarios
+#         await #Borrar
+#         await asyncio.sleep(45)
+
 
 client.run(token)
